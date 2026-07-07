@@ -1,0 +1,16 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "pycudabrot"
+version = "0.1.0"
+description = "A Mandelbrot renderer for your terminal, JIT-compiled to the GPU with CuPy"
+requires-python = ">=3.10"
+dependencies = ["cupy"]
+
+[project.scripts]
+pycudabrot = "pycudabrot.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/pycudabrot"]

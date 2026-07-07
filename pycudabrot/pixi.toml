@@ -1,0 +1,33 @@
+# ── The workspace: your development environment ────────────────────────────
+[workspace]
+name = "pycudabrot"
+channels = ["https://prefix.dev/conda-forge"]
+# CuPy needs a CUDA driver at runtime; declare it via the `__cuda`
+# virtual package so the solver picks GPU-enabled builds.
+platforms = [{ platform = "linux-64", cuda = "12" }]
+preview = ["pixi-build"]
+
+[dependencies]
+pycudabrot = { path = "." }
+
+[tasks]
+render = "pycudabrot"
+seahorse = "pycudabrot -0.743643887 0.131825904 0.00008 1500"
+
+# ── The package: a noarch Python conda package ─────────────────────────────
+[package]
+name = "pycudabrot"
+version = "0.1.0"
+
+[package.build]
+backend = { name = "pixi-build-python", version = "0.*" }
+channels = ["https://prefix.dev/conda-forge"]
+
+[package.host-dependencies]
+# The PEP 517 backend that builds the wheel; pixi-build-python turns
+# that wheel into a conda package.
+hatchling = "*"
+
+[package.run-dependencies]
+python = ">=3.10"
+cupy = ">=13"
