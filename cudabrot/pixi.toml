@@ -4,7 +4,7 @@ name = "cudabrot"
 channels = ["https://prefix.dev/conda-forge"]
 # Declare that this platform provides a CUDA 12 driver (the `__cuda`
 # virtual package). This is what lets the solver pick GPU-enabled builds.
-platforms = [{ platform = "linux-64", cuda = "12" }]
+platforms = [{ platform = "linux-64", cuda = "12" }, { platform = "linux-64", cuda = "13" }]
 preview = ["pixi-build"]
 
 [dependencies]

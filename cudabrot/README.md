@@ -9,7 +9,7 @@ and 24-bit ANSI colors, so each terminal cell holds two pixels.
 
 ## Requirements
 
-- Linux (x86-64) with an NVIDIA GPU and a driver supporting CUDA 12
+- Linux (x86-64) with an NVIDIA GPU and a CUDA 12 or later driver
 - [Pixi](https://pixi.sh/latest/#installation)
 
 That's it. No system CUDA toolkit installation — `nvcc`, the CUDA runtime,
