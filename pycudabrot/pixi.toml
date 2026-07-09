@@ -4,7 +4,10 @@ name = "pycudabrot"
 channels = ["https://prefix.dev/conda-forge"]
 # CuPy needs a CUDA driver at runtime; declare it via the `__cuda`
 # virtual package so the solver picks GPU-enabled builds.
-platforms = [{ platform = "linux-64", cuda = "12" }]
+platforms = [
+    { platform = "linux-64", cuda = "12" }, { platform = "win-64", cuda = "12" },
+    { platform = "linux-64", cuda = "13" }, { platform = "win-64", cuda = "13" },
+]
 preview = ["pixi-build"]
 
 [dependencies]
