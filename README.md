@@ -13,7 +13,7 @@ terminal), packaged with two different Pixi build backends:
 
 ## Quick start
 
-Requirements: Linux x86-64, an NVIDIA GPU with a CUDA 12 driver, and
+Requirements: Linux x86-64 / Windows x86-64, an NVIDIA GPU with a CUDA 12 or later driver, and
 [Pixi](https://pixi.sh/latest/#installation). Everything else — `nvcc`,
 CUDA runtime, compilers, CMake, Python — is pulled from conda-forge
 automatically.
