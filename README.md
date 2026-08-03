@@ -22,3 +22,5 @@ automatically.
 cd cudabrot     # or pycudabrot
 pixi run render
 ```
+
+<img width="1459" height="974" alt="seahorse-gpu-render" src="https://github.com/user-attachments/assets/0b571b13-7bbe-4693-a818-ea7473656784" />
