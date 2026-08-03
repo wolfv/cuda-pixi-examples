@@ -30,8 +30,7 @@ name = "cudabrot"
 version = "0.1.0"
 
 [package.build]
-backend = { name = "pixi-build-cmake", version = "0.*" }
-channels = ["https://prefix.dev/conda-forge"]
+backend = { name = "pixi-build-cmake", version = "0.*", channels = ["https://prefix.dev/conda-forge"] }
 
 [package.build.config]
 # Ask the backend for a C++ toolchain *and* the CUDA compiler (nvcc).

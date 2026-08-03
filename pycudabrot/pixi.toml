@@ -23,8 +23,7 @@ name = "pycudabrot"
 version = "0.1.0"
 
 [package.build]
-backend = { name = "pixi-build-python", version = "0.*" }
-channels = ["https://prefix.dev/conda-forge"]
+backend = { name = "pixi-build-python", version = "0.*", channels = ["https://prefix.dev/conda-forge"] }
 
 [package.host-dependencies]
 # The PEP 517 backend that builds the wheel; pixi-build-python turns
