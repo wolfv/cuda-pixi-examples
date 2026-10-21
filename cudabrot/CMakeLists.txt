@@ -12,4 +12,12 @@ project(cudabrot LANGUAGES CXX CUDA)
 add_executable(cudabrot src/main.cu)
 target_compile_features(cudabrot PRIVATE cxx_std_17 cuda_std_17)
 
+# MSVC reads sources in the system code page by default, which mangles the
+# UTF-8 "▀" literal. nvcc forwards host-compiler flags via -Xcompiler.
+if(MSVC)
+  target_compile_options(cudabrot PRIVATE
+    $<$<COMPILE_LANGUAGE:CXX>:/utf-8>
+    $<$<COMPILE_LANGUAGE:CUDA>:-Xcompiler=/utf-8>)
+endif()
+
 install(TARGETS cudabrot RUNTIME DESTINATION bin)

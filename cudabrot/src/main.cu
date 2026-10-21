@@ -11,8 +11,14 @@
 #include <string>
 #include <vector>
 
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
+#include <windows.h>
+#else
 #include <sys/ioctl.h>
 #include <unistd.h>
+#endif
 
 #define CUDA_CHECK(call)                                                  \
     do {                                                                  \
@@ -68,15 +74,42 @@ __global__ void mandelbrot(uchar3 *out, int width, int height, double center_re,
 
 static void terminal_size(int *width, int *height)
 {
+    int cols = 0, rows = 0;
+#ifdef _WIN32
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+    if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
+        cols = csbi.srWindow.Right - csbi.srWindow.Left + 1;
+        rows = csbi.srWindow.Bottom - csbi.srWindow.Top + 1;
+    }
+#else
     winsize ws{};
-    if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == 0 && ws.ws_col > 0 && ws.ws_row > 2) {
-        *width = ws.ws_col;
-        *height = 2 * (ws.ws_row - 3);  // half-blocks: two pixels per row
+    if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == 0) {
+        cols = ws.ws_col;
+        rows = ws.ws_row;
+    }
+#endif
+    if (cols > 0 && rows > 2) {
+        *width = cols;
+        *height = 2 * (rows - 3);  // half-blocks: two pixels per row
     } else {
         *width = 100;
         *height = 56;
     }
 }
+
+#ifdef _WIN32
+// The Windows console needs to be told to emit UTF-8 (for ▀) and to
+// interpret ANSI escape sequences (for the 24-bit colors).
+static void enable_ansi_console()
+{
+    SetConsoleOutputCP(CP_UTF8);
+    HANDLE out = GetStdHandle(STD_OUTPUT_HANDLE);
+    DWORD mode = 0;
+    if (GetConsoleMode(out, &mode)) {
+        SetConsoleMode(out, mode | ENABLE_VIRTUAL_TERMINAL_PROCESSING);
+    }
+}
+#endif
 
 int main(int argc, char **argv)
 {
@@ -91,6 +124,10 @@ int main(int argc, char **argv)
     if (argc >= 5) {
         max_iter = std::atoi(argv[4]);
     }
+
+#ifdef _WIN32
+    enable_ansi_console();
+#endif
 
     int width = 0, height = 0;
     terminal_size(&width, &height);
